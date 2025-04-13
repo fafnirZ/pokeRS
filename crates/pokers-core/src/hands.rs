@@ -135,13 +135,18 @@ fn is_royal_flush(cards: &Vec<Card>) -> bool {
         return false
     }      
     
-    let all_suits_ace = cards
-        .iter()
-        .map(|card| card.suit)
-        .all(|suit| suit == Suit::Spade);
-    if !all_suits_ace {
-        return false
+    // let all_suits_ace = cards
+    //     .iter()
+    //     .map(|card| card.suit)
+    //     .all(|suit| suit == Suit::Spade);
+    // if !all_suits_ace {
+    //     return false
+    // }
+    
+    if !is_flush(cards) {
+        return false;
     }
+
     return true
 }
 
