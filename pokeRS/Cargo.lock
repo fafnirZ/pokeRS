@@ -5,3 +5,10 @@ version = 4
 [[package]]
 name = "pokeRS"
 version = "0.1.0"
+dependencies = [
+ "pokers-core",
+]
+
+[[package]]
+name = "pokers-core"
+version = "0.1.0"
