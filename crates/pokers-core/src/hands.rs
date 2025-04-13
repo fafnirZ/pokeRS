@@ -54,15 +54,29 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
 
     let __determine_n_of_what_kind = determine_n_of_what_kind(&_ordered_cards).unwrap();
 
-    println!("ordered {:?}", _ordered_cards);  
-    println!("is royal flush {:?}", __is_royal_flush);  
-    println!("is straight flush {:?}", __is_straight_flush);  
-    println!("is straight {:?}", __is_straight);  
-    println!("is flush {:?}", __is_flush);
-    println!("kind: {:?}", __determine_n_of_what_kind);
+    // println!("ordered {:?}", _ordered_cards);  
+    // println!("is royal flush {:?}", __is_royal_flush);  
+    // println!("is straight flush {:?}", __is_straight_flush);  
+    // println!("is straight {:?}", __is_straight);  
+    // println!("is flush {:?}", __is_flush);
+    // println!("kind: {:?}", __determine_n_of_what_kind);
 
-
-    Ok(Hand::HighCard)
+    // return in order.
+    if __is_royal_flush {
+        return Ok(Hand::RoyalFlush);
+    }
+    else if __is_straight_flush {
+        return Ok(Hand::StraightFlush);
+    }
+    else if __is_flush {
+        return Ok(Hand::Flush);
+    }
+    else if __is_straight {
+        return Ok(Hand::Straight);
+    }
+    else {
+        return Ok(__determine_n_of_what_kind);
+    }
 }
 
 fn sort_cards(cards: Vec<Card>) -> Vec<Card> {
