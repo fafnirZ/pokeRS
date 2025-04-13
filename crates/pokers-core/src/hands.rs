@@ -1,5 +1,5 @@
 use crate::cards::{Card, CardNumber, Suit};
-use std::cmp::Ordering;
+use std::{cmp::Ordering, collections::HashMap};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Hand {
@@ -51,12 +51,15 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     let __is_straight = is_straight(&_ordered_cards);
     let __is_flush = is_flush(&_ordered_cards);
 
-    println!("ordered {:?}", _ordered_cards);  
+    let __n_of_a_kind = n_of_a_kind(&_ordered_cards);
 
+    println!("ordered {:?}", _ordered_cards);  
     println!("is royal flush {:?}", __is_royal_flush);  
     println!("is straight flush {:?}", __is_straight_flush);  
     println!("is straight {:?}", __is_straight);  
     println!("is flush {:?}", __is_flush);
+
+    println!("n of a kind {:?}", __n_of_a_kind);
 
     Ok(Hand::HighCard)
 }
@@ -135,4 +138,15 @@ fn is_straight_flush(cards: &Vec<Card>) -> bool {
         return false;
     }
     return true;
+}
+
+fn n_of_a_kind(cards: &Vec<Card>) -> HashMap<CardNumber, u8> {
+    let mut hm: HashMap<CardNumber, u8> = HashMap::new();
+    for card in cards.iter() {
+        let card_num = card.number;
+        hm.entry(card_num)
+            .and_modify(|val| {*val += 1})
+            .or_insert(1);
+    }
+    hm
 }
