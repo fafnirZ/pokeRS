@@ -8,19 +8,25 @@ pub enum Suit {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardNumber {
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Jack,
-    Queen,
-    King,
-    Ace
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
+    Ten = 10,
+    Jack = 11,
+    Queen = 12,
+    King = 13,
+    Ace = 14, // well its technically 1, BUT power wise its 14
+}
+
+impl CardNumber {
+    pub fn value(&self) -> u8 {
+        *self as u8
+    }
 }
 
 

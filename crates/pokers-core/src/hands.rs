@@ -46,8 +46,12 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     }
 
     let _ordered_cards = sort_cards(cards);
+    let __is_straight = is_straight(&_ordered_cards);
+    let __is_flush = is_flush(&_ordered_cards);
 
-    println!("ordered {:?}", _ordered_cards);    
+    println!("ordered {:?}", _ordered_cards);  
+    println!("is straight {:?}", __is_straight);  
+    println!("is flush {:?}", __is_flush);
 
     Ok(Hand::HighCard)
 }
@@ -72,4 +76,21 @@ fn sort_cards(cards: Vec<Card>) -> Vec<Card> {
         }
     });
     _ordered_cards
+}
+
+// assume vec sorted
+fn is_straight(cards: &Vec<Card>) -> bool {
+    for (curr, next) in cards.iter().zip(cards.iter().skip(1)) {
+        if next.number.value() - curr.number.value() > 1 {
+            return false
+        }
+    }
+    true
+}
+
+// assume len(vec) == 5
+fn is_flush(cards: &Vec<Card>) -> bool {
+    let _first_card = cards[0];
+    let _first_card_suit = _first_card.suit;
+    cards.iter().all(|c| c.suit == _first_card_suit)
 }
