@@ -1,4 +1,4 @@
-
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Suit {
     Diamond,
     Club,
@@ -6,6 +6,7 @@ pub enum Suit {
     Spade
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardNumber {
     One,
     Two,
@@ -24,9 +25,10 @@ pub enum CardNumber {
 }
 
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Card {
-    suit: Suit,
-    number: CardNumber,
+    pub suit: Suit,
+    pub number: CardNumber,
 }
 
 impl Card {
