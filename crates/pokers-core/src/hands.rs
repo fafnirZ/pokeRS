@@ -1,5 +1,6 @@
 use crate::cards::Card;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Hand {
     RoyalFlush,
     StraightFlush,
@@ -29,6 +30,16 @@ impl Hand {
             Hand::RoyalFlush => 9,
         }
     }
-};
+}
 
+#[derive(Debug)]
+pub enum HandError {
+    InvalidCardCount(&'static str),
+}
+pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
+    if cards.len() != 5 {
+       return Err(HandError::InvalidCardCount("Invalid card count")); 
+    }
 
+    Ok(Hand::HighCard)
+}
