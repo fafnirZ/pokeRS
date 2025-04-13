@@ -173,7 +173,7 @@ fn n_of_a_kind(cards: &Vec<Card>) -> HashMap<CardNumber, u8> {
 
 fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
     let n_of_a_kind_hm = n_of_a_kind(cards);
-    println!("n of a kind {:?}", n_of_a_kind_hm);
+    // println!("n of a kind {:?}", n_of_a_kind_hm);
 
     let hm_size = n_of_a_kind_hm.keys().len();
     // note previously, any() and filter() basically
