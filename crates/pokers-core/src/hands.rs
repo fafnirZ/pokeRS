@@ -1,4 +1,5 @@
 use crate::cards::Card;
+use std::cmp::Ordering;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Hand {
@@ -44,10 +45,31 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
         )); 
     }
 
-    let mut _ordered_cards = cards.clone();
-    _ordered_cards.sort_by(|a, b| a.number.partial_cmp(&b.number).unwrap());
+    let _ordered_cards = sort_cards(cards);
 
     println!("ordered {:?}", _ordered_cards);    
 
     Ok(Hand::HighCard)
+}
+
+fn sort_cards(cards: Vec<Card>) -> Vec<Card> {
+    // sort by number then suits
+    let mut _ordered_cards = cards.clone();
+    _ordered_cards.sort_by(|a, b| {
+        let a_num = a.number;
+        let b_num = b.number;
+        let a_suit = a.suit;
+        let b_suit = b.suit;
+        
+        let num_cmp = a_num.partial_cmp(&b_num).unwrap();
+        match num_cmp {
+            Ordering::Less => Ordering::Less,
+            Ordering::Greater => Ordering::Greater,
+            Ordering::Equal => {
+                let suit_cmp = a_suit.partial_cmp(&b_suit).unwrap();
+                suit_cmp   
+            }
+        }
+    });
+    _ordered_cards
 }

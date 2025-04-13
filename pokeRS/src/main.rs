@@ -13,6 +13,22 @@ fn main() {
         suit: Cards::Suit::Diamond,
         number: Cards::CardNumber::Two,
     });
+    cards.push(Cards::Card {
+        suit: Cards::Suit::Club,
+        number: Cards::CardNumber::Two,
+    });
+    cards.push(Cards::Card {
+        suit: Cards::Suit::Diamond,
+        number: Cards::CardNumber::Three,
+    });
+    cards.push(Cards::Card {
+        suit: Cards::Suit::Diamond,
+        number: Cards::CardNumber::Ace,
+    });
+    cards.push(Cards::Card {
+        suit: Cards::Suit::Diamond,
+        number: Cards::CardNumber::Queen,
+    });
 
     // result
     let _res = match Hands::determine_hand(cards) {
