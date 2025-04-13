@@ -8,7 +8,6 @@ pub enum Suit {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardNumber {
-    One,
     Two,
     Three,
     Four,
@@ -35,7 +34,7 @@ impl Card {
     pub fn generate_all_cards() -> [Card;52] {
         let mut all_cards = [Card {
             suit: Suit::Diamond,
-            number: CardNumber::One,
+            number: CardNumber::Two,
         }; 52]; // Initialize with a dummy Card, then overwrite.
 
         // no enum.values() equivalent in rust
@@ -46,7 +45,6 @@ impl Card {
             Suit::Spade
         ];
         let card_nums = [
-            CardNumber::One,
             CardNumber::Two,
             CardNumber::Three,
             CardNumber::Four,

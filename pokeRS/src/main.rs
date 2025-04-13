@@ -5,7 +5,7 @@ fn main() {
     let all_cards = Card::generate_all_cards();
     for card in all_cards.iter() {
         println!(
-            "Card(suit={}, number={})",
+            "Card(suit={:?}, number={:?})",
             card.suit,
             card.number,
         )
