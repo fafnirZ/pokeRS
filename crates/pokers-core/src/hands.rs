@@ -46,10 +46,15 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     }
 
     let _ordered_cards = sort_cards(cards);
+    let __is_royal_flush = is_royal_flush(&_ordered_cards);
+    let __is_straight_flush = is_straight_flush(&_ordered_cards);
     let __is_straight = is_straight(&_ordered_cards);
     let __is_flush = is_flush(&_ordered_cards);
 
     println!("ordered {:?}", _ordered_cards);  
+
+    println!("is royal flush {:?}", __is_royal_flush);  
+    println!("is straight flush {:?}", __is_straight_flush);  
     println!("is straight {:?}", __is_straight);  
     println!("is flush {:?}", __is_flush);
 
@@ -96,13 +101,6 @@ fn is_flush(cards: &Vec<Card>) -> bool {
 }
 
 fn is_royal_flush(cards: &Vec<Card>) -> bool {
-    if !is_straight(cards) {
-        return false;
-    }
-    if !is_flush(cards) {
-        return false;
-    }
-    
     let numbers: Vec<CardNumber> = cards
                     .iter()
                     .map(|card| card.number)
@@ -127,4 +125,14 @@ fn is_royal_flush(cards: &Vec<Card>) -> bool {
         return false
     }
     return true
+}
+
+fn is_straight_flush(cards: &Vec<Card>) -> bool {
+    if !is_flush(cards) {
+        return false
+    }
+    if !is_straight(cards) {
+        return false;
+    }
+    return true;
 }
