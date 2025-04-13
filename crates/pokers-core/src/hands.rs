@@ -1,4 +1,4 @@
-use crate::cards::{Card, CardNumber, Suit};
+use crate::cards::{Card, CardNumber};
 use std::{cmp::Ordering, collections::HashMap};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
