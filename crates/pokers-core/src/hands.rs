@@ -217,9 +217,9 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
                     return Ok(Hand::FourOfAKind);
                 }
             else {
-                return Err(HandError::ImpossibleHandError((
+                return Err(HandError::ImpossibleHandError(
                     format!("Impossible case")
-                )))
+                ))
             }
         },
         _ => {
