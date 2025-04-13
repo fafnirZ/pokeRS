@@ -1,4 +1,4 @@
-use crate::cards::Card;
+use crate::cards::{Card, CardNumber, Suit};
 use std::cmp::Ordering;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -93,4 +93,38 @@ fn is_flush(cards: &Vec<Card>) -> bool {
     let _first_card = cards[0];
     let _first_card_suit = _first_card.suit;
     cards.iter().all(|c| c.suit == _first_card_suit)
+}
+
+fn is_royal_flush(cards: &Vec<Card>) -> bool {
+    if !is_straight(cards) {
+        return false;
+    }
+    if !is_flush(cards) {
+        return false;
+    }
+    
+    let numbers: Vec<CardNumber> = cards
+                    .iter()
+                    .map(|card| card.number)
+                    .collect();
+
+    let expected_numbers = vec![
+        CardNumber::Ten,
+        CardNumber::Jack,
+        CardNumber::Queen,
+        CardNumber::King,
+        CardNumber::Ace,
+    ];
+    if numbers != expected_numbers{
+        return false
+    }      
+    
+    let all_suits_ace = cards
+        .iter()
+        .map(|card| card.suit)
+        .all(|suit| suit == Suit::Spade);
+    if !all_suits_ace {
+        return false
+    }
+    return true
 }
