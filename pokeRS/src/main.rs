@@ -1,4 +1,3 @@
-use pokers_core::cards as Cards;
 use pokers_core::deck::Deck;
 use pokers_core::hands as Hands;
 
