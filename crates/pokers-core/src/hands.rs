@@ -52,12 +52,14 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     let __is_straight = is_straight(&_ordered_cards);
     let __is_flush = is_flush(&_ordered_cards);
 
+    let __determine_n_of_what_kind = determine_n_of_what_kind(&_ordered_cards).unwrap();
 
     println!("ordered {:?}", _ordered_cards);  
     println!("is royal flush {:?}", __is_royal_flush);  
     println!("is straight flush {:?}", __is_straight_flush);  
     println!("is straight {:?}", __is_straight);  
     println!("is flush {:?}", __is_flush);
+    println!("kind: {:?}", __determine_n_of_what_kind);
 
 
     Ok(Hand::HighCard)
@@ -155,24 +157,28 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
     println!("n of a kind {:?}", n_of_a_kind_hm);
 
     let hm_size = n_of_a_kind_hm.keys().len();
-    let hm_values = n_of_a_kind_hm.values();
+    // note previously, any() and filter() basically
+    // consumed the values() results
+    // it needs to be collected
+    let hm_values_vec: Vec<u8> = n_of_a_kind_hm.values().copied().collect();
     let res = match hm_size {
         5 => return Ok(Hand::HighCard),
         4 => {
-            if hm_values.any(|v| *v == 2) {
+            if hm_values_vec.iter().any(|v| *v == 2) {
                 return Ok(Hand::Pair)
             }
             return Ok(Hand::HighCard)
         },
         3 => {
-            if hm_values.any(|v| *v == 3) {
-                if hm_values.any(|v| *v == 2) {
+            if hm_values_vec.iter().any(|v| *v == 3) {
+                if hm_values_vec.iter().any(|v| *v == 2) {
                     return Ok(Hand::FullHouse)
                 }
                 return Ok(Hand::ThreeOfAKind)
             } else {
-                if hm_values
-                    .filter(|v| *v == 2)
+                if hm_values_vec
+                    .iter()
+                    .filter(|v| **v == 2)
                     .count() == 2 {
                     return Ok(Hand::TwoPair)
                 } else {
@@ -185,9 +191,9 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
         // 2 => {
 
         // },
-        1 => {
+        _ => {
             return Err(HandError::ImpossibleHandError(
-                format!("Impossible to have 5 of a kind.")
+                format!("Impossible to have {} of a kind.", hm_size)
             ));
         }
     };
