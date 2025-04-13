@@ -175,7 +175,7 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
     // consumed the values() results
     // it needs to be collected
     let hm_values_vec: Vec<u8> = n_of_a_kind_hm.values().copied().collect();
-    let res = match hm_size {
+    let _res = match hm_size {
         5 => return Ok(Hand::HighCard),
         4 => {
             if hm_values_vec.iter().any(|v| *v == 2) {
