@@ -37,6 +37,7 @@ impl Hand {
 pub enum HandError {
     // InvalidCardCount(&'static str),
     InvalidCardCount(String),
+    ImpossibleHandError(String),
 }
 pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     if cards.len() != 5 {
@@ -51,7 +52,6 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     let __is_straight = is_straight(&_ordered_cards);
     let __is_flush = is_flush(&_ordered_cards);
 
-    let __n_of_a_kind = n_of_a_kind(&_ordered_cards);
 
     println!("ordered {:?}", _ordered_cards);  
     println!("is royal flush {:?}", __is_royal_flush);  
@@ -59,7 +59,6 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     println!("is straight {:?}", __is_straight);  
     println!("is flush {:?}", __is_flush);
 
-    println!("n of a kind {:?}", __n_of_a_kind);
 
     Ok(Hand::HighCard)
 }
@@ -149,4 +148,47 @@ fn n_of_a_kind(cards: &Vec<Card>) -> HashMap<CardNumber, u8> {
             .or_insert(1);
     }
     hm
+}
+
+fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
+    let n_of_a_kind_hm = n_of_a_kind(cards);
+    println!("n of a kind {:?}", n_of_a_kind_hm);
+
+    let hm_size = n_of_a_kind_hm.keys().len();
+    let hm_values = n_of_a_kind_hm.values();
+    let res = match hm_size {
+        5 => return Ok(Hand::HighCard),
+        4 => {
+            if hm_values.any(|v| *v == 2) {
+                return Ok(Hand::Pair)
+            }
+            return Ok(Hand::HighCard)
+        },
+        3 => {
+            if hm_values.any(|v| *v == 3) {
+                if hm_values.any(|v| *v == 2) {
+                    return Ok(Hand::FullHouse)
+                }
+                return Ok(Hand::ThreeOfAKind)
+            } else {
+                if hm_values
+                    .filter(|v| *v == 2)
+                    .count() == 2 {
+                    return Ok(Hand::TwoPair)
+                } else {
+                    return Err(HandError::ImpossibleHandError(
+                        format!("Implossible case")
+                    ))
+                }
+            }
+        },
+        // 2 => {
+
+        // },
+        1 => {
+            return Err(HandError::ImpossibleHandError(
+                format!("Impossible to have 5 of a kind.")
+            ));
+        }
+    };
 }
