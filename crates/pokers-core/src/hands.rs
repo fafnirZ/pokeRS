@@ -34,12 +34,20 @@ impl Hand {
 
 #[derive(Debug)]
 pub enum HandError {
-    InvalidCardCount(&'static str),
+    // InvalidCardCount(&'static str),
+    InvalidCardCount(String),
 }
 pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     if cards.len() != 5 {
-       return Err(HandError::InvalidCardCount("Invalid card count")); 
+       return Err(HandError::InvalidCardCount(
+            format!("Invalid card count expected: 5, got {}", cards.len())
+        )); 
     }
+
+    let mut _ordered_cards = cards.clone();
+    _ordered_cards.sort_by(|a, b| a.number.partial_cmp(&b.number).unwrap());
+
+    println!("ordered {:?}", _ordered_cards);    
 
     Ok(Hand::HighCard)
 }
