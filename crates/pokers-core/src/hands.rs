@@ -174,7 +174,10 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
     // note previously, any() and filter() basically
     // consumed the values() results
     // it needs to be collected
-    let hm_values_vec: Vec<u8> = n_of_a_kind_hm.values().copied().collect();
+    let hm_values_vec: Vec<u8> = n_of_a_kind_hm
+        .values()
+        .copied()
+        .collect();
     let _res = match hm_size {
         5 => return Ok(Hand::HighCard),
         4 => {
@@ -202,9 +205,18 @@ fn determine_n_of_what_kind(cards: &Vec<Card>) -> Result<Hand, HandError> {
                 }
             }
         },
-        // 2 => {
-
-        // },
+        2 => {
+            if hm_values_vec
+                .iter()
+                .any(|v| *v == 4) {
+                    return Ok(Hand::FourOfAKind);
+                }
+            else {
+                return Err(HandError::ImpossibleHandError((
+                    format!("Impossible case")
+                )))
+            }
+        },
         _ => {
             return Err(HandError::ImpossibleHandError(
                 format!("Impossible to have {} of a kind.", hm_size)
