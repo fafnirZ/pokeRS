@@ -39,12 +39,7 @@ pub enum HandError {
     InvalidCardCount(String),
     ImpossibleHandError(String),
 }
-pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
-    if cards.len() != 5 {
-       return Err(HandError::InvalidCardCount(
-            format!("Invalid card count expected: 5, got {}", cards.len())
-        )); 
-    }
+pub fn determine_hand(cards: &[Card]) -> Result<Hand, HandError> {
 
     let _ordered_cards = sort_cards(cards);
     let __is_royal_flush = is_royal_flush(&_ordered_cards);
@@ -79,9 +74,9 @@ pub fn determine_hand(cards: Vec<Card>) -> Result<Hand, HandError> {
     }
 }
 
-fn sort_cards(cards: Vec<Card>) -> Vec<Card> {
+pub fn sort_cards(cards: &[Card]) -> Vec<Card> {
     // sort by number then suits
-    let mut _ordered_cards = cards.clone();
+    let mut _ordered_cards = Vec::from(cards);
     _ordered_cards.sort_by(|a, b| {
         let a_num = a.number;
         let b_num = b.number;
@@ -98,7 +93,7 @@ fn sort_cards(cards: Vec<Card>) -> Vec<Card> {
             }
         }
     });
-    _ordered_cards
+    Vec::from(_ordered_cards)
 }
 
 // assume vec sorted
