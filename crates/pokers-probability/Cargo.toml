@@ -1,0 +1,7 @@
+[package]
+name = "pokers-probability"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pokers-core = { path = "../pokers-core" }

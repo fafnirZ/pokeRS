@@ -81,7 +81,6 @@ fn main() {
     };
     let user_hand = Hands::determine_hand( &_user_table_combined)
                                     .unwrap();
-    
     println!("\t{:?}", user_hand);
 
     // user hand sorted
