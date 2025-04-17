@@ -30,13 +30,41 @@ impl CardNumber {
 }
 
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Card {
     pub suit: Suit,
     pub number: CardNumber,
 }
 
 impl Card {
+
+    pub fn get_suits() -> [Suit;4] {
+        return [
+            Suit::Diamond,
+            Suit::Club,
+            Suit::Heart,
+            Suit::Spade
+        ]; 
+    }
+
+    pub fn get_numbers() -> [CardNumber;13] {
+        return [
+            CardNumber::Two,
+            CardNumber::Three,
+            CardNumber::Four,
+            CardNumber::Five,
+            CardNumber::Six,
+            CardNumber::Seven,
+            CardNumber::Eight,
+            CardNumber::Nine,
+            CardNumber::Ten,
+            CardNumber::Jack,
+            CardNumber::Queen,
+            CardNumber::King,
+            CardNumber::Ace 
+        ]
+    }
+
     pub fn generate_all_cards() -> [Card;52] {
         let mut all_cards = [Card {
             suit: Suit::Diamond,
