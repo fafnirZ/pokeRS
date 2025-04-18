@@ -243,6 +243,7 @@ mod tests {
         assert!(res.len() == 13);
     }
 
+    // 13C1 * 4C3 * 12C1 * 4C2
     #[test]
     fn test_full_house() {
         let res = permute_full_house();
@@ -258,6 +259,7 @@ mod tests {
         assert!(res.len() == combination_double * combination_triple);
     }
 
+    // 13C5*4C1
     #[test]
     fn test_flush() {
         let res = permute_flush();
@@ -265,6 +267,9 @@ mod tests {
         let thirteen_c_five = 1287;
         assert!(res.len() == thirteen_c_five * 4);
     }
+
+    // 9 straights in the game 
+    // 4*4*4*4*4 number of suit combintations
     #[test]
     fn test_straight() {
         let res = permute_straight();
@@ -273,6 +278,7 @@ mod tests {
         assert!(res.len() == 9 * total_permutation_of_suits_in_a_hand_of_five);
     }
 
+    // 13C1*4C3
     #[test]
     fn test_three_of_a_kind() {
         let res = permute_three_of_a_kind();
