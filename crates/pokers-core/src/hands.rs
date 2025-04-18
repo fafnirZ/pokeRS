@@ -31,6 +31,21 @@ impl Hand {
             Hand::RoyalFlush => 9,
         }
     }
+
+    pub fn get_hands() -> [Hand;10] {
+        return [
+            Hand::HighCard,
+            Hand::Pair,
+            Hand::TwoPair,
+            Hand::ThreeOfAKind,
+            Hand::Straight,
+            Hand::Flush,
+            Hand::FullHouse,
+            Hand::FourOfAKind,
+            Hand::StraightFlush,
+            Hand::RoyalFlush,
+        ]
+    }
 }
 
 #[derive(Debug)]

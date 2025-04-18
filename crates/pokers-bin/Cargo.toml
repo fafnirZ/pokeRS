@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 pokers-core = { path = "../pokers-core" }
+pokers-probability = { path = "../pokers-probability" }

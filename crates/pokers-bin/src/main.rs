@@ -1,6 +1,7 @@
 use pokers_core::cards::Card;
 use pokers_core::deck::Deck;
 use pokers_core::hands as Hands;
+use pokers_probability::determine::{determine_how_many_hands_better};
 
 // fn main() {
 //     let all_cards = Cards::Card::generate_all_cards();
@@ -91,4 +92,9 @@ fn main() {
         print!(",");
     }
     println!("");
+    
+
+    // hands better than user's hand
+    determine_how_many_hands_better(&_user_table_combined);
+
 }
