@@ -79,31 +79,78 @@ pub fn permute_full_house() -> HashSet<Vec<Card>> {
         for double in permute_pair() {
             let double_first_card = double.first().unwrap();
             if triple_first_card.number == double_first_card.number {
-                continue
+                continue;
             }
             let combined_vec: Vec<Card> = triple
-                                        .clone()
-                                        .into_iter()
-                                        .chain(
-                                            double
-                                            .clone()
-                                            .into_iter()
-                                        )
-                                        .collect();
+                .clone()
+                .into_iter()
+                .chain(double.clone().into_iter())
+                .collect();
 
             set.insert(combined_vec);
         }
     }
-    return set
+    return set;
 }
-// pub fn permute_flush() -> HashSet<Vec<Card>> {
-//     let mut set: HashSet<Vec<Card>> = HashSet::new();
-//     return set
-// }
-// pub fn permute_straight() -> HashSet<Vec<Card>> {
-//     let mut set: HashSet<Vec<Card>> = HashSet::new();
-//     return set
-// }
+
+// 4*13C5
+pub fn permute_flush() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    for suit in Card::get_suits() {
+        let all_numbers_vec = Card::get_numbers().to_vec();
+        let pick_5: Vec<Vec<&CardNumber>> = all_numbers_vec.iter().combinations(5).collect();
+        for random_5_numbers in pick_5 {
+            let hand: Vec<Card> = random_5_numbers
+                .iter()
+                .map(|num| Card {
+                    number: **num,
+                    suit: suit,
+                })
+                .collect();
+            set.insert(hand);
+        }
+    }
+    return set;
+}
+
+// 2 3 4 5 6 7 8 9 10   <-beginning
+// 0 1 2 3 4 5 6 7 8    <-index
+pub fn permute_straight() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    for idx in 0..=8 {
+        let start = idx;
+        let card_nums = Card::get_numbers();
+        let number_slice_ascending = &card_nums[start..start + 5];
+        for suit_combination in permute_all_suit_combinations_for_five_cards() {
+            let hand = suit_combination
+                .iter()
+                .zip(number_slice_ascending.iter())
+                .map(|(suit, number)| Card {
+                    suit: *suit,
+                    number: *number,
+                })
+                .collect();
+            set.insert(hand);
+        }
+    }
+    return set;
+}
+
+pub fn permute_all_suit_combinations_for_five_cards() -> Vec<Vec<Suit>> {
+    let mut res = Vec::new();
+    for c1 in Card::get_suits() {
+        for c2 in Card::get_suits() {
+            for c3 in Card::get_suits() {
+                for c4 in Card::get_suits() {
+                    for c5 in Card::get_suits() {
+                        res.push(vec![c1, c2, c3, c4, c5])
+                    }
+                }
+            }
+        }
+    }
+    return res;
+}
 
 // for ever number
 // returns Vec size 3
@@ -183,35 +230,37 @@ mod tests {
         let res = permute_full_house();
         println!("{:?}", res);
         let num_cards = 13;
-        let combination_triple = 4*num_cards;
-        let combination_double = 6*(num_cards-1);
-        
+        let combination_triple = 4 * num_cards;
+        let combination_double = 6 * (num_cards - 1);
+
         // given triple is "2"
         // double cannot be also "2"
-        //  so its actually 4C2 * (13-1) for combination of double, 
+        //  so its actually 4C2 * (13-1) for combination of double,
         //  given card number cannot be identical to triple
-        assert!(res.len() == combination_double*combination_triple);
+        assert!(res.len() == combination_double * combination_triple);
     }
 
-    // #[test]
-    // fn test_flush() {
-    //     let res = permute_flush();
-    //     println!("{:?}", res);
-    //     assert!(res.len() == 999);
-    // }
-    // #[test]
-    // fn test_straight() {
-    //     let res = permute_straight();
-    //     println!("{:?}", res);
-    //     assert!(res.len() == 999);
-    // }
+    #[test]
+    fn test_flush() {
+        let res = permute_flush();
+        println!("{:?}", res);
+        let thirteen_c_five = 1287;
+        assert!(res.len() == thirteen_c_five * 4);
+    }
+    #[test]
+    fn test_straight() {
+        let res = permute_straight();
+        println!("{:?}", res);
+        let total_permutation_of_suits_in_a_hand_of_five = 4_u32.pow(5) as usize;
+        assert!(res.len() == 9 * total_permutation_of_suits_in_a_hand_of_five);
+    }
 
     #[test]
     fn test_three_of_a_kind() {
         let res = permute_three_of_a_kind();
         println!("{:?}", res);
         let four_c_three = 4;
-        assert!(res.len() == (four_c_three*13));
+        assert!(res.len() == (four_c_three * 13));
     }
 
     #[test]
