@@ -24,12 +24,12 @@ pub fn permute_straight_flush() -> HashSet<Vec<Card>> {
         for idx in 0..=7 {
             let start = idx;
             let card_nums = Card::get_numbers();
-            let number_slice = &card_nums[start..start+4];
+            let number_slice = &card_nums[start..start+5];
+            let mut hand = Vec::new();
             for &card_num in number_slice {
-                set.insert(vec![
-                    Card{suit: suit, number: card_num},
-                ]);
+                hand.push(Card{suit: suit, number: card_num});
             }
+            set.insert(hand);
         }
     }
     return set
@@ -60,14 +60,12 @@ mod tests {
         let res = permute_royal_flush();
         println!("{:?}", res);
         assert!(res.len() == 4);
-        // assert!(1==0);
     }
     #[test]
     fn test_straight_flush() {
         let res = permute_straight_flush();
         println!("{:?}", res);
-        assert!(res.len() == 28);
-        // assert!(1==0);
+        assert!(res.len() == 4*8);
     }
 
     #[test]
@@ -75,7 +73,6 @@ mod tests {
         let res = permute_four_of_a_kind();
         println!("{:?}", res);
         assert!(res.len() == 13);
-        // assert!(1==0);
     }
     
 }
