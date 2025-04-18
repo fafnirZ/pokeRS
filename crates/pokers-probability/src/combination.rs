@@ -1,6 +1,6 @@
 
 use pokers_core::cards::{Card, CardNumber, Suit};
-use std::collections::HashSet;
+use std::{collections::HashSet};
 
 pub fn permute_royal_flush() -> HashSet<Vec<Card>> {
     let mut set: HashSet<Vec<Card>> = HashSet::new();
@@ -25,12 +25,27 @@ pub fn permute_straight_flush() -> HashSet<Vec<Card>> {
             let start = idx;
             let card_nums = Card::get_numbers();
             let number_slice = &card_nums[start..start+4];
-            for card_num in number_slice {
+            for &card_num in number_slice {
                 set.insert(vec![
-                    Card{suit: suit, number: *card_num},
+                    Card{suit: suit, number: card_num},
                 ]);
             }
         }
+    }
+    return set
+}
+
+//
+pub fn permute_four_of_a_kind() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    for card_num in Card::get_numbers() {
+        let mut hand: Vec<Card> = Vec::new();
+        for suit in Card::get_suits() {
+            hand.push(
+                Card{suit: suit, number: card_num}
+            );
+        } 
+        set.insert(hand);
     }
     return set
 }
@@ -54,4 +69,13 @@ mod tests {
         assert!(res.len() == 28);
         // assert!(1==0);
     }
+
+    #[test]
+    fn test_four_of_a_kind() {
+        let res = permute_four_of_a_kind();
+        println!("{:?}", res);
+        assert!(res.len() == 13);
+        // assert!(1==0);
+    }
+    
 }
