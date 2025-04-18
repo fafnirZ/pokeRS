@@ -69,13 +69,33 @@ pub fn permute_four_of_a_kind() -> HashSet<Vec<Card>> {
     return set;
 }
 
-// // for every card number J for Triple, (4C3 suit)
-// //    for ever card number K not J for double (4C2 suit)
-// // TODO after finish: permute triple, permute_pairs
-// pub fn permute_full_house() -> HashSet<Vec<Card>> {
-//     let mut set: HashSet<Vec<Card>> = HashSet::new();
-//     return set
-// }
+// for every card number J for Triple, (4C3 suit)
+//    for ever card number K not J for double (4C2 suit)
+// TODO after finish: permute triple, permute_pairs
+pub fn permute_full_house() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    for triple in permute_three_of_a_kind() {
+        let triple_first_card = triple.first().unwrap();
+        for double in permute_pair() {
+            let double_first_card = double.first().unwrap();
+            if triple_first_card.number == double_first_card.number {
+                continue
+            }
+            let combined_vec: Vec<Card> = triple
+                                        .clone()
+                                        .into_iter()
+                                        .chain(
+                                            double
+                                            .clone()
+                                            .into_iter()
+                                        )
+                                        .collect();
+
+            set.insert(combined_vec);
+        }
+    }
+    return set
+}
 // pub fn permute_flush() -> HashSet<Vec<Card>> {
 //     let mut set: HashSet<Vec<Card>> = HashSet::new();
 //     return set
@@ -156,12 +176,13 @@ mod tests {
         assert!(res.len() == 13);
     }
 
-    // #[test]
-    // fn test_full_house() {
-    //     let res = permute_full_house();
-    //     println!("{:?}", res);
-    //     assert!(res.len() == 999);
-    // }
+    #[test]
+    fn test_full_house() {
+        let res = permute_full_house();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+
     // #[test]
     // fn test_flush() {
     //     let res = permute_flush();
