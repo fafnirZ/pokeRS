@@ -194,10 +194,28 @@ pub fn permute_pair() -> HashSet<Vec<Card>> {
     return set;
 }
 
-// pub fn permute_two_pair() -> HashSet<Vec<Card>> {
-//     let mut set: HashSet<Vec<Card>> = HashSet::new();
-//     return set
-// }
+pub fn permute_two_pair() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    let card_pairs_exhaustive = permute_pair().into_iter();
+    let pick_2_vecs: Vec<Vec<Vec<Card>>> = card_pairs_exhaustive
+        .combinations(2)
+        .collect();
+
+    for two_pairs in pick_2_vecs {
+        let first_pair = &two_pairs[0];
+        let second_pair = &two_pairs[1];
+        let first_pair_card = first_pair.first().unwrap();
+        let second_pair_card = second_pair.first().unwrap();
+        if first_pair_card.number == second_pair_card.number {
+            continue;
+        }
+        let mut concatenated: Vec<Card> = Vec::new();
+        concatenated.extend(first_pair);
+        concatenated.extend(second_pair);
+        set.insert(concatenated);
+    }
+    return set
+}
 
 #[cfg(test)]
 mod tests {
@@ -271,10 +289,16 @@ mod tests {
         assert!(res.len() == four_c_two * 13);
     }
 
-    // #[test]
-    // fn test_two_pair() {
-    //     let res = permute_two_pair();
-    //     println!("{:?}", res);
-    //     assert!(res.len() == 999);
-    // }
+
+    // 13C2*4C2*4C2
+    #[test]
+    fn test_two_pair() {
+        let res = permute_two_pair();
+        println!("{:?}", res.len());
+        let four_c_two = 6;
+        let thirteen_c_two = 78;
+        assert!(res.len() == (
+            thirteen_c_two*four_c_two*four_c_two
+        ));
+    }
 }
