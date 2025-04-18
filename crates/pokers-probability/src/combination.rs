@@ -154,6 +154,8 @@ pub fn permute_pair() -> HashSet<Vec<Card>> {
 
 #[cfg(test)]
 mod tests {
+    use core::num;
+
     use super::*;
 
     #[test]
@@ -180,7 +182,15 @@ mod tests {
     fn test_full_house() {
         let res = permute_full_house();
         println!("{:?}", res);
-        assert!(res.len() == 999);
+        let num_cards = 13;
+        let combination_triple = 4*num_cards;
+        let combination_double = 6*(num_cards-1);
+        
+        // given triple is "2"
+        // double cannot be also "2"
+        //  so its actually 4C2 * (13-1) for combination of double, 
+        //  given card number cannot be identical to triple
+        assert!(res.len() == combination_double*combination_triple);
     }
 
     // #[test]
