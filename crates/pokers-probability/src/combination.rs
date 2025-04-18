@@ -51,6 +51,33 @@ pub fn permute_four_of_a_kind() -> HashSet<Vec<Card>> {
 }
 
 
+pub fn permute_full_house() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+pub fn permute_flush() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+pub fn permute_straight() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+pub fn permute_three_of_a_kind() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+
+pub fn permute_two_pair() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+pub fn permute_pair() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    return set
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -75,4 +102,42 @@ mod tests {
         assert!(res.len() == 13);
     }
     
+    #[test]
+    fn test_full_house() {
+        let res = permute_full_house();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+    #[test]
+    fn test_flush() {
+        let res = permute_flush();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+    #[test]
+    fn test_straight() {
+        let res = permute_straight();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+    #[test]
+    fn test_three_of_a_kind() {
+        let res = permute_three_of_a_kind();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+    #[test]
+    fn test_two_pair() {
+        let res = permute_two_pair();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+
+    #[test]
+    fn test_pair() {
+        let res = permute_pair();
+        println!("{:?}", res);
+        assert!(res.len() == 999);
+    }
+
 }
