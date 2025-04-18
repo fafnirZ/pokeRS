@@ -107,11 +107,27 @@ pub fn permute_three_of_a_kind() -> HashSet<Vec<Card>> {
     return set;
 }
 
+pub fn permute_pair() -> HashSet<Vec<Card>> {
+    let mut set: HashSet<Vec<Card>> = HashSet::new();
+    for card_num in Card::get_numbers() {
+        let suits_vec = Card::get_suits().to_vec(); // E0716
+        let suit_combinations: Vec<Vec<&Suit>> = suits_vec.iter().combinations(2).collect();
+        // for pick_2 in suit_combinations
+        for suit_combination in suit_combinations {
+            let hand: Vec<Card> = suit_combination
+                .iter()
+                .map(|suit| Card {
+                    suit: **suit,
+                    number: card_num,
+                })
+                .collect();
+            set.insert(hand);
+        }
+    }
+    return set;
+}
+
 // pub fn permute_two_pair() -> HashSet<Vec<Card>> {
-//     let mut set: HashSet<Vec<Card>> = HashSet::new();
-//     return set
-// }
-// pub fn permute_pair() -> HashSet<Vec<Card>> {
 //     let mut set: HashSet<Vec<Card>> = HashSet::new();
 //     return set
 // }
@@ -166,17 +182,18 @@ mod tests {
         let four_c_three = 4;
         assert!(res.len() == (four_c_three*13));
     }
-    
+
+    #[test]
+    fn test_pair() {
+        let res = permute_pair();
+        println!("{:?}", res);
+        let four_c_two = 6;
+        assert!(res.len() == four_c_two * 13);
+    }
+
     // #[test]
     // fn test_two_pair() {
     //     let res = permute_two_pair();
-    //     println!("{:?}", res);
-    //     assert!(res.len() == 999);
-    // }
-
-    // #[test]
-    // fn test_pair() {
-    //     let res = permute_pair();
     //     println!("{:?}", res);
     //     assert!(res.len() == 999);
     // }
